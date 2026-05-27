@@ -1,3 +1,4 @@
+import { useEffect, useState } from 'react'
 import './App.css'
 import acknowledgementBackground from './assets/acknowledgement-background.jpg'
 import alisterImage from './assets/alister-page.jpg'
@@ -104,12 +105,30 @@ const committeeMembers = [
   },
 ]
 
-function getCurrentPage() {
-  return pages.find((page) => page.path === window.location.pathname) ?? pages[0]
+function getCurrentPath() {
+  return window.location.hash.replace(/^#/, '') || '/'
+}
+
+function getCurrentPage(path) {
+  return pages.find((page) => page.path === path) ?? pages[0]
 }
 
 function App() {
-  const currentPage = getCurrentPage()
+  const [currentPath, setCurrentPath] = useState(getCurrentPath)
+  const currentPage = getCurrentPage(currentPath)
+
+  useEffect(() => {
+    const handleHashChange = () => {
+      setCurrentPath(getCurrentPath())
+      window.scrollTo({ top: 0, left: 0 })
+    }
+
+    window.addEventListener('hashchange', handleHashChange)
+
+    return () => {
+      window.removeEventListener('hashchange', handleHashChange)
+    }
+  }, [])
 
   return (
     <div className="site-shell">
@@ -316,7 +335,7 @@ function Navigation() {
   return (
     <nav className="primary-nav" aria-label="Primary">
       {pages.map((page) => (
-        <a key={page.path} href={page.path}>
+        <a key={page.path} href={`#${page.path}`}>
           {page.title}
         </a>
       ))}
