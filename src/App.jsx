@@ -153,7 +153,7 @@ function HomePage() {
           <h1>MM27</h1>
           <p className="subtitle">Molecular Modelling 2027</p>
           <p className="conference-date">September 26-29, 2027</p>
-          <p className="conference-location">Newcastle, Australa</p>
+          <p className="conference-location">Newcastle, Australia</p>
         </div>
       </section>
 
