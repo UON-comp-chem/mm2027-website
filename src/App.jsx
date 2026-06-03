@@ -58,6 +58,8 @@ const pages = [
   },
 ]
 
+const navigationPages = pages.filter((page) => page.path !== '/sponsors')
+
 const committeeMembers = [
   {
     name: 'Prof. Alister Page',
@@ -334,7 +336,7 @@ function LocationPage() {
 function Navigation() {
   return (
     <nav className="primary-nav" aria-label="Primary">
-      {pages.map((page) => (
+      {navigationPages.map((page) => (
         <a key={page.path} href={`#${page.path}`}>
           {page.title}
         </a>
