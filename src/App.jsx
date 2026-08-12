@@ -14,6 +14,10 @@ import nuspaceImage from './assets/nuspace-building.jpg'
 import newcastleLogo from './assets/university-of-newcastle-logo.webp'
 
 const contactEmail = 'mm27.amma@gmail.com'
+const abstractFormEndpoint = import.meta.env.VITE_ABSTRACT_FORM_ENDPOINT?.trim() ?? ''
+const abstractTemplateUrl = `${import.meta.env.BASE_URL}MM27_Abstract_Template.docx`
+const maxAbstractFileBytes = 10 * 1024 * 1024
+const allowedAbstractExtensions = ['.doc', '.docx', '.pdf']
 
 const pages = [
   {
@@ -21,14 +25,14 @@ const pages = [
     path: '/',
     heading: 'Molecular Modelling 2027',
     description:
-      'Australasia’s premier molecular modelling conference, in Newcastle, Australia, from 26–29 September 2027.',
+      'Australasia’s premier molecular modelling conference is coming to Newcastle, Australia. Conference dates are TBC.',
   },
   {
     title: 'Important Dates',
     path: '/important-dates',
     heading: 'Important Dates',
     description:
-      'Track confirmed MM27 dates and the milestones still being finalised by the organising committee.',
+      'Track MM27 dates and planning milestones as they are confirmed by the organising committee.',
   },
   {
     title: 'Registration',
@@ -56,7 +60,7 @@ const pages = [
     path: '/program',
     heading: 'Program',
     description:
-      'The four-day framework and scientific themes for Molecular Modelling 2027.',
+      'The developing scientific framework and themes for Molecular Modelling 2027.',
   },
   {
     title: 'Sponsors',
@@ -154,62 +158,74 @@ const committeeMembers = [
 const planningDates = [
   {
     label: 'Registration opens',
-    date: 'To be announced',
+    date: 'TBC',
     description: 'Fees, categories and the University of Newcastle registration link will be published here.',
   },
   {
     label: 'Abstract submission opens',
-    date: 'To be announced',
+    date: 'TBC',
     description: 'Submission guidance and the online abstract form will be released together.',
   },
   {
     label: 'Oral presentation deadline',
-    date: 'To be announced',
+    date: 'TBC',
     description: 'The committee will publish a separate oral deadline if required.',
   },
   {
     label: 'Poster presentation deadline',
-    date: 'To be announced',
+    date: 'TBC',
     description: 'Poster format and submission requirements will be confirmed before abstracts open.',
   },
   {
     label: 'Presenter notifications',
-    date: 'To be announced',
+    date: 'TBC',
     description: 'Submission outcomes and presentation details will be sent to presenters by email.',
   },
   {
     label: 'Early-bird registration closes',
-    date: 'To be announced',
+    date: 'TBC',
     description: 'The early-bird deadline will be confirmed alongside the registration fees.',
   },
 ]
 
-const programDays = [
+const programElements = [
   {
-    day: 'Sunday',
-    date: '26 September',
-    label: 'Day 1',
-    description: 'MM27 begins. Opening times and the first sessions will be confirmed in the detailed program.',
+    timing: 'TBC',
+    title: 'Plenary & keynote sessions',
+    label: 'Invited program',
+    description: 'Invited speakers and session times will be announced as the scientific program develops.',
   },
   {
-    day: 'Monday',
-    date: '27 September',
-    label: 'Day 2',
-    description: 'Scientific program details, presentation blocks and social activities are to be announced.',
+    timing: 'TBC',
+    title: 'Contributed talks',
+    label: 'Oral program',
+    description: 'Presentation blocks will be shaped after abstracts have been reviewed and accepted.',
   },
   {
-    day: 'Tuesday',
-    date: '28 September',
-    label: 'Day 3',
-    description: 'Scientific program details, presentation blocks and social activities are to be announced.',
+    timing: 'TBC',
+    title: 'Poster session',
+    label: 'Poster program',
+    description: 'Poster format, session timing and display guidance will be confirmed with presenter notifications.',
   },
   {
-    day: 'Wednesday',
-    date: '29 September',
-    label: 'Day 4',
-    description: 'MM27 concludes. Final session and closing times will be published with the program.',
+    timing: 'TBC',
+    title: 'Community & networking',
+    label: 'Social program',
+    description: 'Welcome, networking and other community activities will be added when dates and venues are settled.',
   },
 ]
+
+function getAbstractFileError(file) {
+  if (!file) return 'Choose a Word document or PDF to continue.'
+
+  const lowerName = file.name.toLowerCase()
+  const hasAllowedExtension = allowedAbstractExtensions.some((extension) => lowerName.endsWith(extension))
+
+  if (!hasAllowedExtension) return 'Use a .doc, .docx or .pdf file.'
+  if (file.size > maxAbstractFileBytes) return 'The file must be no larger than 10 MB.'
+
+  return ''
+}
 
 function getCurrentPath() {
   return window.location.hash.replace(/^#/, '') || '/'
@@ -336,21 +352,21 @@ function HomePage() {
             Molecular Modelling 2027
           </h1>
           <p className="hero-summary">
-            Australasia&apos;s premier molecular modelling conference returns in September 2027.
+            Australasia&apos;s premier molecular modelling conference is coming to Newcastle in 2027. Conference dates are TBC.
           </p>
           <div className="button-row">
             <a className="button button-primary" href="#/important-dates">
-              Save the dates
+              View date updates
             </a>
             <a className="button button-ghost" href={`mailto:${contactEmail}`}>
               Contact the organisers
             </a>
           </div>
         </div>
-        <div className="hero-date-card" aria-label="Conference dates: 26 to 29 September 2027">
-          <strong>26–29</strong>
-          <span>September</span>
-          <small>2027</small>
+        <div className="hero-date-card" aria-label="Conference dates to be confirmed">
+          <small>Conference dates</small>
+          <strong>TBC</strong>
+          <span>Newcastle · 2027</span>
         </div>
       </section>
 
@@ -368,7 +384,7 @@ function HomePage() {
             . MM27 will bring together researchers developing and applying computational approaches across chemistry, biology, physics and materials science.
           </p>
           <p>
-            Join colleagues from across Australasia and around the world for four days of ideas, methods and conversations on the Newcastle coast.
+            Join colleagues from across Australasia and around the world for ideas, methods and conversations on the Newcastle coast.
           </p>
         </div>
       </section>
@@ -380,7 +396,7 @@ function HomePage() {
         </div>
         <div>
           <span>Dates</span>
-          <strong>26–29 September 2027</strong>
+          <strong>To be confirmed</strong>
         </div>
         <div>
           <span>Host city</span>
@@ -427,7 +443,7 @@ function HomePage() {
           <a className="feature-link" href="#/registration">
             <span className="status-chip">Not yet open</span>
             <h3>Join us in Newcastle</h3>
-            <p>Find confirmed event details and what to expect from the registration process.</p>
+            <p>Find current planning details and what to expect from the registration process.</p>
             <strong>Registration information <span aria-hidden="true">→</span></strong>
           </a>
           <a className="feature-link feature-link-photo" href="#/location">
@@ -512,19 +528,19 @@ function ImportantDatesPage() {
       <PageHeader
         eyebrow="Plan your conference"
         title="Important Dates"
-        description="The conference dates are confirmed. Registration, abstract and program milestones will be added as the organising committee finalises them."
+        description="All MM27 dates are currently TBC. Conference, registration, abstract and program milestones will be added as the organising committee confirms them."
       />
       <div className="section-shell page-stack">
-        <section className="confirmed-date" aria-label="Confirmed conference dates">
+        <section className="confirmed-date" aria-label="Conference dates to be confirmed">
           <div>
-            <span>Confirmed</span>
-            <strong>26–29</strong>
-            <small>September 2027</small>
+            <span>Conference dates</span>
+            <strong>TBC</strong>
+            <small>Newcastle · 2027</small>
           </div>
           <div>
             <p className="eyebrow">Molecular Modelling 2027</p>
-            <h2>Four days in Newcastle</h2>
-            <p>Sunday 26 September to Wednesday 29 September 2027 · Newcastle, New South Wales, Australia.</p>
+            <h2>Dates are being finalised</h2>
+            <p>MM27 is planned as an in-person meeting in Newcastle, New South Wales, Australia. The conference dates are not yet confirmed.</p>
             <a className="text-link" href="#/location">Explore the host city <span aria-hidden="true">→</span></a>
           </div>
         </section>
@@ -556,7 +572,7 @@ function ImportantDatesPage() {
           title="Check back as planning progresses"
           action={<a className="button button-dark" href={`mailto:${contactEmail}`}>Contact the committee</a>}
         >
-          Confirmed dates will appear here and on the relevant registration, abstract and program pages.
+          Confirmed information will appear here and on the relevant registration, abstract and program pages.
         </StatusNotice>
       </div>
     </>
@@ -569,14 +585,14 @@ function RegistrationPage() {
       <PageHeader
         eyebrow="Attend MM27"
         title="Registration"
-        description="MM27 will be an in-person conference in Newcastle from 26–29 September 2027. Registration is not yet open."
+        description="MM27 is planned as an in-person conference in Newcastle in 2027. Conference dates are TBC and registration is not yet open."
       />
       <div className="section-shell page-stack">
         <StatusNotice label="Not yet open" title="Registration is being prepared">
           Registration and payment will be handled through a University of Newcastle portal. The link, fee categories, inclusions and terms will be published here once finalised.
         </StatusNotice>
 
-        <section className="detail-grid" aria-label="Confirmed registration details">
+        <section className="detail-grid" aria-label="Current registration details">
           <article>
             <span>01</span>
             <p>Conference format</p>
@@ -585,7 +601,7 @@ function RegistrationPage() {
           <article>
             <span>02</span>
             <p>Conference dates</p>
-            <strong>26–29 September 2027</strong>
+            <strong>TBC</strong>
           </article>
           <article>
             <span>03</span>
@@ -639,63 +655,219 @@ function RegistrationPage() {
 }
 
 function AbstractSubmissionPage() {
+  const [fileError, setFileError] = useState('')
+  const [previewSubmitted, setPreviewSubmitted] = useState(false)
+  const submissionIsConfigured = Boolean(abstractFormEndpoint)
+
+  const handleFileChange = (event) => {
+    setFileError(getAbstractFileError(event.target.files?.[0]))
+    setPreviewSubmitted(false)
+  }
+
+  const handleSubmit = (event) => {
+    const form = event.currentTarget
+    const fileInput = form.elements.namedItem('abstract_file')
+    const nextFileError = getAbstractFileError(fileInput?.files?.[0])
+
+    if (nextFileError) {
+      event.preventDefault()
+      setFileError(nextFileError)
+      fileInput?.focus()
+      return
+    }
+
+    if (!submissionIsConfigured) {
+      event.preventDefault()
+      setPreviewSubmitted(true)
+    }
+  }
+
   return (
     <>
       <PageHeader
         eyebrow="Share your research"
         title="Abstract Submission"
-        description="MM27 will provide opportunities for researchers to contribute to the scientific program. The call for abstracts is not yet open."
+        description="Explore the draft submission form and one-page template. The call for abstracts, submission dates and final requirements are all TBC."
       />
       <div className="section-shell page-stack">
-        <StatusNotice label="Coming later" title="Submission guidance is in development">
-          The abstract template, word or page limit, presentation formats, assessment criteria and online submission link will be published together once approved.
+        <StatusNotice label="Prototype only" title="This form is open for testing, not real submissions">
+          The committee can test the fields, file upload and email delivery now. Final submission rules, privacy arrangements, dates and the production recipient must be approved before the form is opened publicly.
         </StatusNotice>
 
-        <section className="split-section" aria-labelledby="abstract-preparation-title">
+        <section className="abstract-guidance" aria-labelledby="abstract-guidance-title">
           <div>
-            <p className="eyebrow">Prepare ahead</p>
-            <h2 id="abstract-preparation-title">Information worth having ready</h2>
-            <p>The final requirements may differ, but most submissions will need the following core information.</p>
+            <p className="eyebrow">Draft requirements</p>
+            <h2 id="abstract-guidance-title">One page, one optional figure</h2>
+            <p>These requirements are a working draft and remain subject to committee approval.</p>
+            <a className="button button-dark" href={abstractTemplateUrl} download>
+              Download Word template
+            </a>
           </div>
           <ul className="check-list">
-            <li>Presentation title and a concise abstract</li>
-            <li>Presenter name, email and institutional affiliation</li>
-            <li>Co-author names and affiliations</li>
-            <li>Preferred presentation format, such as oral or poster</li>
-            <li>Relevant scientific theme or topic area</li>
-            <li>Any accessibility or presentation requirements requested by the form</li>
+            <li>Use the supplied A4 Word template</li>
+            <li>Keep the complete submission to one page</li>
+            <li>Underline the presenting author</li>
+            <li>Include no more than one figure</li>
+            <li>Upload a Word document or PDF</li>
+            <li>Keep the uploaded file at or below 10 MB</li>
           </ul>
         </section>
 
-        <section aria-labelledby="abstract-process-title">
-          <div className="section-heading compact">
+        <section className="abstract-form-section" aria-labelledby="abstract-form-title">
+          <div className="form-heading">
             <div>
-              <p className="eyebrow">Submission pathway</p>
-              <h2 id="abstract-process-title">From draft to decision</h2>
+              <p className="eyebrow">Submission prototype</p>
+              <h2 id="abstract-form-title">Test the abstract form</h2>
+              <p>Required fields are marked with an asterisk. Please use dummy or non-sensitive content while testing.</p>
             </div>
+            <span className={`form-mode${submissionIsConfigured ? ' is-connected' : ''}`}>
+              {submissionIsConfigured ? 'Test email connected' : 'Preview mode — no email sent'}
+            </span>
           </div>
-          <div className="process-grid four-columns">
-            <article>
-              <span>1</span>
-              <h3>Read the guidance</h3>
-              <p>Check the approved template, length limit, eligibility rules and publication terms.</p>
-            </article>
-            <article>
-              <span>2</span>
-              <h3>Submit online</h3>
-              <p>Enter the requested details and upload or paste the abstract using the conference form.</p>
-            </article>
-            <article>
-              <span>3</span>
-              <h3>Committee review</h3>
-              <p>The organising committee will assess program fit and presentation preferences.</p>
-            </article>
-            <article>
-              <span>4</span>
-              <h3>Outcome by email</h3>
-              <p>Presenters will receive the outcome and any next steps at the address supplied.</p>
-            </article>
-          </div>
+
+          <form
+            className="abstract-form"
+            action={abstractFormEndpoint || undefined}
+            method="POST"
+            encType="multipart/form-data"
+            onSubmit={handleSubmit}
+            onChange={() => setPreviewSubmitted(false)}
+          >
+            <input type="hidden" name="_subject" value="MM27 abstract submission test" />
+            <input type="hidden" name="_template" value="table" />
+            <input className="honeypot" type="text" name="_honey" tabIndex="-1" autoComplete="off" aria-hidden="true" />
+
+            <fieldset>
+              <legend>Presenting author</legend>
+              <div className="form-grid two-columns">
+                <label>
+                  <span>Given name *</span>
+                  <input type="text" name="given_name" autoComplete="given-name" required />
+                </label>
+                <label>
+                  <span>Family name *</span>
+                  <input type="text" name="family_name" autoComplete="family-name" required />
+                </label>
+                <label>
+                  <span>Email address *</span>
+                  <input type="email" name="email" autoComplete="email" required />
+                </label>
+                <label>
+                  <span>Institution *</span>
+                  <input type="text" name="institution" autoComplete="organization" required />
+                </label>
+              </div>
+            </fieldset>
+
+            <fieldset>
+              <legend>Presentation</legend>
+              <div className="form-grid">
+                <label>
+                  <span>Presentation title *</span>
+                  <input type="text" name="presentation_title" required />
+                </label>
+              </div>
+              <div className="form-grid two-columns">
+                <label>
+                  <span>Preferred format *</span>
+                  <select name="preferred_format" defaultValue="" required>
+                    <option value="" disabled>Select an option</option>
+                    <option value="Oral presentation">Oral presentation</option>
+                    <option value="Poster presentation">Poster presentation</option>
+                    <option value="Either oral or poster">Either oral or poster</option>
+                  </select>
+                </label>
+                <label>
+                  <span>Primary theme *</span>
+                  <select name="primary_theme" defaultValue="" required>
+                    <option value="" disabled>Select a theme</option>
+                    {researchThemes.map((theme) => (
+                      <option key={theme.title} value={theme.title}>{theme.title}</option>
+                    ))}
+                    <option value="Other / interdisciplinary">Other / interdisciplinary</option>
+                  </select>
+                </label>
+              </div>
+              <div className="form-grid">
+                <label>
+                  <span>Co-authors and affiliations</span>
+                  <textarea
+                    name="coauthors"
+                    rows="4"
+                    placeholder="List each co-author and institutional affiliation."
+                  />
+                </label>
+              </div>
+            </fieldset>
+
+            <fieldset>
+              <legend>Abstract file</legend>
+              <div className={`upload-field${fileError ? ' has-error' : ''}`}>
+                <label htmlFor="abstract-file">
+                  <strong>Upload Word document or PDF *</strong>
+                  <span>.doc, .docx or .pdf · maximum 10 MB</span>
+                </label>
+                <input
+                  id="abstract-file"
+                  type="file"
+                  name="abstract_file"
+                  accept=".doc,.docx,.pdf,application/msword,application/vnd.openxmlformats-officedocument.wordprocessingml.document,application/pdf"
+                  aria-describedby={fileError ? 'abstract-file-error' : 'abstract-file-help'}
+                  onChange={handleFileChange}
+                  required
+                />
+                <small id="abstract-file-help">Use the template above and remove its blue guidance box before uploading.</small>
+                {fileError && <p className="field-error" id="abstract-file-error" role="alert">{fileError}</p>}
+              </div>
+            </fieldset>
+
+            <fieldset>
+              <legend>Submission checks</legend>
+              <div className="checkbox-list">
+                <label>
+                  <input type="checkbox" name="one_page_confirmed" value="Yes" required />
+                  <span>I confirm the complete abstract is no longer than one A4 page. *</span>
+                </label>
+                <label>
+                  <input type="checkbox" name="presenter_underlined" value="Yes" required />
+                  <span>I confirm the presenting author is underlined. *</span>
+                </label>
+                <label>
+                  <input type="checkbox" name="figure_limit_confirmed" value="Yes" required />
+                  <span>I confirm the abstract contains no more than one figure. *</span>
+                </label>
+                <label>
+                  <input type="checkbox" name="data_use_consent" value="Yes" required />
+                  <span>I consent to the organising committee using these details and the uploaded file to assess the submission and contact the presenter. *</span>
+                </label>
+              </div>
+            </fieldset>
+
+            <div className="form-grid">
+              <label>
+                <span>Notes for the organising committee</span>
+                <textarea name="committee_notes" rows="4" placeholder="Optional accessibility, scheduling or other relevant information." />
+              </label>
+            </div>
+
+            <div className="form-actions">
+              <button className="button button-dark" type="submit">
+                {submissionIsConfigured ? 'Send test submission' : 'Validate test submission'}
+              </button>
+              <p>
+                {submissionIsConfigured
+                  ? 'Testing may transfer the entered information and file to the configured external form service.'
+                  : 'Preview mode validates the form locally but does not transmit or save anything.'}
+              </p>
+            </div>
+
+            {previewSubmitted && (
+              <div className="form-result" role="status" aria-live="polite">
+                <strong>Form validation passed.</strong>
+                <p>No email was sent because this local preview has no submission endpoint configured.</p>
+              </div>
+            )}
+          </form>
         </section>
 
         <StatusNotice
@@ -703,7 +875,7 @@ function AbstractSubmissionPage() {
           title="Need to plan around an abstract?"
           action={<a className="button button-dark" href={`mailto:${contactEmail}?subject=MM27%20abstract%20enquiry`}>Email the organisers</a>}
         >
-          The committee may not yet have every answer, but can help with time-sensitive questions while the submission process is being finalised.
+          The committee may not yet have every answer, but can help with time-sensitive questions while the final submission process is being approved.
         </StatusNotice>
       </div>
     </>
@@ -714,9 +886,9 @@ function ProgramPage() {
   return (
     <>
       <PageHeader
-        eyebrow="Four days of molecular science"
+        eyebrow="Scientific program"
         title="Program"
-        description="The detailed scientific and social program is still being developed. The confirmed conference window is shown below."
+        description="The scientific and social program is still being developed. Conference dates, session dates and timetable details are all TBC."
       />
       <div className="section-shell page-stack">
         <StatusNotice label="In development" title="Speaker and session announcements will follow">
@@ -727,17 +899,16 @@ function ProgramPage() {
           <div className="section-heading compact">
             <div>
               <p className="eyebrow">Conference framework</p>
-              <h2 id="program-framework-title">26–29 September 2027</h2>
+              <h2 id="program-framework-title">Program dates TBC</h2>
             </div>
-            <p>Only the dates are confirmed at this stage. Session names and timings below remain intentionally open.</p>
+            <p>No dates or session times have been confirmed. These elements show the intended shape of the program without implying a final timetable.</p>
           </div>
           <div className="program-grid">
-            {programDays.map((item) => (
-              <article key={item.date}>
+            {programElements.map((item) => (
+              <article key={item.title}>
                 <span>{item.label}</span>
-                <p>{item.day}</p>
-                <h3>{item.date}</h3>
-                <small>2027</small>
+                <p>{item.timing}</p>
+                <h3>{item.title}</h3>
                 <div className="program-placeholder">
                   <i aria-hidden="true" />
                   <p>{item.description}</p>
@@ -816,7 +987,7 @@ function LocationPage() {
           </div>
           <div>
             <p>Newcastle sits on the New South Wales coast, roughly 160 kilometres north of Sydney. Its city centre links beaches, ocean baths, the harbour foreshore, restaurants and cultural venues within a relatively compact area.</p>
-            <p>Late September is spring in Newcastle. Conditions are generally mild, but coastal weather can change, so delegates should check the forecast close to travel.</p>
+            <p>Conditions in Newcastle vary through the year, and coastal weather can change quickly. Seasonal guidance and a forecast link will be added after the conference dates are confirmed.</p>
           </div>
         </section>
 
@@ -941,7 +1112,7 @@ function SiteFooter() {
           <h2>See you in Newcastle.</h2>
         </div>
         <div>
-          <p>26–29 September 2027</p>
+          <p>Conference dates TBC</p>
           <a className="button button-ghost" href={`mailto:${contactEmail}`}>Contact the organisers</a>
         </div>
       </section>
