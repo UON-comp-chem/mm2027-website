@@ -52,7 +52,7 @@ The downloadable draft template is `public/MM27_Abstract_Template.docx`.
 
 Run `npm audit` after installing from the committed lockfile. Review audit findings before applying fixes, and do not use `npm audit fix --force` without checking the breaking changes it proposes.
 
-`node_modules` should not be added to future commits. It is ignored for new clones, although older repository history still contains a tracked copy that should be removed in a separate maintenance change.
+`node_modules` is ignored and is no longer tracked in the current repository tree. Older commits still contain the generated files, which is normal and does not affect fresh clones.
 
 ## Publishing
 
