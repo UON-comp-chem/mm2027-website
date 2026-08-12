@@ -1,16 +1,35 @@
-# React + Vite
+# Molecular Modelling 2027 website
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Official website for **MM27**, the Association of Molecular Modellers of Australasia conference in Newcastle, Australia, from 26–29 September 2027.
 
-Currently, two official plugins are available:
+## Local development
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+```bash
+npm install
+npm run dev
+```
 
-## React Compiler
+Before proposing a change, run:
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+```bash
+npm run lint
+npm run build
+```
 
-## Expanding the ESLint configuration
+## Updating conference content
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+Most page content and planning data live in `src/App.jsx`:
+
+- `pages` controls routes and metadata;
+- `planningDates` controls the Important Dates timeline;
+- `programDays` controls the four-day program framework;
+- `researchThemes` controls the scientific-scope cards; and
+- `committeeMembers` controls the organising committee.
+
+Site-wide presentation and responsive behaviour live in `src/App.css`. Shared browser defaults live in `src/index.css`.
+
+## Publishing
+
+The site is deployed to GitHub Pages automatically when changes are merged into `main`. Work on a separate branch and open a pull request so changes can be reviewed before they appear on the public website.
+
+The live site is <https://uon-comp-chem.github.io/mm2027/>.
