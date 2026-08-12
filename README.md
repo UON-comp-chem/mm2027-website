@@ -1,16 +1,61 @@
-# React + Vite
+# Molecular Modelling 2027 website
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Official website for **MM27**, the Association of Molecular Modellers of Australasia conference in Newcastle, Australia. Conference dates are to be confirmed.
 
-Currently, two official plugins are available:
+## Local development
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+```bash
+npm install
+npm run dev
+```
 
-## React Compiler
+The development server prints a local address, usually <http://localhost:5173/mm2027/>. Keep that terminal open while previewing the site.
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+Before proposing a change, run:
 
-## Expanding the ESLint configuration
+```bash
+npm run lint
+npm run build
+```
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+## Updating conference content
+
+Most page content and planning data live in `src/App.jsx`:
+
+- `pages` controls routes and metadata;
+- `planningDates` controls the Important Dates timeline;
+- `programElements` controls the draft program framework;
+- `researchThemes` controls the scientific-scope cards; and
+- `committeeMembers` controls the organising committee.
+
+Site-wide presentation and responsive behaviour live in `src/App.css`. Shared browser defaults live in `src/index.css`.
+
+## Testing abstract submissions
+
+The abstract form works in local validation-only mode unless a test endpoint is explicitly configured. In that mode, nothing is transmitted or saved.
+
+To test email delivery, copy `.env.example` to `.env.local`, add the endpoint supplied by the temporary form provider, and restart the development server:
+
+```env
+VITE_ABSTRACT_FORM_ENDPOINT=https://formsubmit.co/YOUR_PRIVATE_FORM_TOKEN
+```
+
+For an initial FormSubmit test, `YOUR_PRIVATE_FORM_TOKEN` may temporarily be the recipient email address. FormSubmit sends an activation email on the first submission; after activation, replace the address with the provider's random endpoint token. Never commit `.env.local`, a personal recipient address or unpublished abstracts.
+
+Vite includes the configured endpoint in browser-delivered code, so the random token reduces casual email-address exposure but is not a secret. Use the personal-address form only for local testing; do not deploy it.
+
+This endpoint is for prototyping only. Before public abstract submission opens, the committee should approve the final recipient, privacy wording, retention arrangements and a University-approved submission service.
+
+The downloadable draft template is `public/MM27_Abstract_Template.docx`.
+
+## Dependency checks
+
+Run `npm audit` after installing from the committed lockfile. Review audit findings before applying fixes, and do not use `npm audit fix --force` without checking the breaking changes it proposes.
+
+`node_modules` is ignored and is no longer tracked in the current repository tree. Older commits still contain the generated files, which is normal and does not affect fresh clones.
+
+## Publishing
+
+The site is deployed to GitHub Pages automatically when changes are merged into `main`. Work on a separate branch and open a pull request so changes can be reviewed before they appear on the public website.
+
+The live site is <https://uon-comp-chem.github.io/mm2027/>.
